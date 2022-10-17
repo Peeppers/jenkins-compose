@@ -1,0 +1,11 @@
+FROM eclipse-temurin:17-jdk as builder
+COPY Main.java /app/src/Main.java
+WORKDIR /app/src
+RUN mkdir ../out && javac Main.java -d ../out
+
+
+
+FROM eclipse-temurin:17-jre as runner
+COPY --from=builder /app/out /app
+WORKDIR /app
+CMD ["java", "Main"]
